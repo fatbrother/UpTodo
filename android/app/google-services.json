@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "633132096727",
+    "project_id": "uptodo-e165d",
+    "storage_bucket": "uptodo-e165d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633132096727:android:4753447a4767ace0c9a492",
+        "android_client_info": {
+          "package_name": "com.example.todo_list_sample"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpJhmZrbYUSYKXPwpemJy9DaaQtZGYBz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
