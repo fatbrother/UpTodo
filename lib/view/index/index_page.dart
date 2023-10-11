@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:random_avatar/random_avatar.dart';
-import 'package:todo_list_sample/views/main/widget/add_task_snack_bar.dart';
+import 'package:todo_list_sample/utility/router.dart';
+import 'package:todo_list_sample/view/index/widget/add_task_snack_bar.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -28,10 +28,15 @@ class _IndexPageState extends State<IndexPage> {
           ),
         ),
         actions: [
-          CircleAvatar(
-              radius: 36,
-              child: RandomAvatar('avatar',
-                  trBackground: true, height: 50, width: 50)),
+          GestureDetector(
+            onTap: gotoProfile,
+            child: const CircleAvatar(
+              radius: 25,
+              foregroundImage:
+                  AssetImage('assets/images/default_avatar.png'),
+            ),
+          ),
+          const SizedBox(width: 8),
         ],
         backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
@@ -53,7 +58,7 @@ class _IndexPageState extends State<IndexPage> {
         ],
       )),
       floatingActionButton: AnimatedRotation(
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1000),
         turns: _isSnackBarVisible ? 0.25 : 0,
         curve: Curves.easeInOut,
         child: FloatingActionButton(
@@ -80,5 +85,9 @@ class _IndexPageState extends State<IndexPage> {
     ScaffoldMessenger.of(context)
         .showSnackBar(AddTaskSnackBar(context: context));
     setState(() => _isSnackBarVisible = true);
+  }
+
+  void gotoProfile() {
+    Navigator.pushNamed(context, RouteMap.profile);
   }
 }

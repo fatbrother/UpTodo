@@ -26,13 +26,13 @@ class TextThemeFactory {
         fontFamily: "Lato",
       ),
       bodyLarge: TextStyle(
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: FontWeight.w400,
         color: ColorSchemeFactory.textColor,
         fontFamily: "Lato",
       ),
       bodySmall: TextStyle(
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: FontWeight.w400,
         color: ColorSchemeFactory.textColor,
         fontFamily: "Lato",

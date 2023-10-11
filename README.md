@@ -1,16 +1,13 @@
-# todo_list_sample
+# UpTodo
 
-A sample todo list app using Flutter.
+## Description
 
-## Getting Started
+UpTodo is a simple todo app that allows you to create, edit, and delete tasks. It also allows you to mark tasks as complete and filter tasks by their completion status.
 
-This project is a starting point for a Flutter application.
+## Installation
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone this repository
+2. Run `flutter pub get`
+3. Run `flutter run`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots

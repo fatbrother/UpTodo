@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:todo_list_sample/utility/router.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
@@ -148,6 +149,6 @@ class _IntroPageState extends State<IntroPage> {
   }
 
   void _onGetStarted() {
-    Navigator.of(context).pushNamed('/welcome');
+    Navigator.of(context).pushNamed(RouteMap.welcome);
   }
 }

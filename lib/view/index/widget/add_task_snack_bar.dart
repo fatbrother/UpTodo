@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_sample/views/main/widget/select_priority_dialog.dart';
+import 'package:todo_list_sample/view/index/widget/select_priority_dialog.dart';
 
 class AddTaskSnackBar extends SnackBar {
   AddTaskSnackBar({
@@ -158,21 +158,45 @@ class SelectCategoryDialog extends StatefulWidget {
 class _SelectCategoryDialogState extends State<SelectCategoryDialog> {
   late String tmpCategory = widget.controller.category;
   final Map<String, Image> _categories = {
-    'Work': Image.asset('assets/images/categories/work.png'),
-    'Sport': Image.asset('assets/images/categories/sport.png'),
-    'Design': Image.asset('assets/images/categories/design.png'),
-    'University': Image.asset('assets/images/categories/university.png'),
-    'Social': Image.asset('assets/images/categories/social.png'),
-    'Music': Image.asset('assets/images/categories/music.png'),
-    'Health': Image.asset('assets/images/categories/health.png'),
-    'Movie': Image.asset('assets/images/categories/movie.png'),
-    'Home': Image.asset('assets/images/categories/home.png'),
+    'Home': Image.asset('assets/icons/categories/home.png'),
+    'Work': Image.asset('assets/icons/categories/work.png'),
+    'Sport': Image.asset('assets/icons/categories/sport.png'),
+    'Design': Image.asset('assets/icons/categories/design.png'),
+    'University': Image.asset('assets/icons/categories/university.png'),
+    'Social': Image.asset('assets/icons/categories/social.png'),
+    'Music': Image.asset('assets/icons/categories/music.png'),
+    'Health': Image.asset('assets/icons/categories/health.png'),
+    'Movie': Image.asset('assets/icons/categories/movie.png'),
   };
+
+  final List<Color> _categoriesColor = [
+    const Color(0xFFFFCC80),
+    const Color(0xFFFF9680),
+    const Color(0xFF80FFFF),
+    const Color(0xFF80FFD9),
+    const Color(0xFF809CFF),
+    const Color(0xFFFF80EB),
+    const Color(0xFFFC80FF),
+    const Color(0xFF80FFA3),
+    const Color(0xFF80D1FF),
+  ];
+
+  final List<Color> _categoriesIconColor = [
+    const Color(0xFFA36200),
+    const Color(0xFFA31D00),
+    const Color(0xFF00A32F),
+    const Color(0xFF00A372),
+    const Color(0xFF0055A3),
+    const Color(0xFFA30089),
+    const Color(0xFFA000A3),
+    const Color(0xFF00A3A3),
+    const Color(0xFF0069A3),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 100, 16, 100),
+      margin: const EdgeInsets.fromLTRB(16, 150, 16, 150),
       padding: const EdgeInsets.all(8),
       width: double.infinity,
       decoration: BoxDecoration(
@@ -210,24 +234,26 @@ class _SelectCategoryDialogState extends State<SelectCategoryDialog> {
                         height: 75,
                         decoration: BoxDecoration(
                           color: tmpCategory == item.key
-                              ? Theme.of(context).colorScheme.tertiary
+                              ? _categoriesColor[
+                                  _categories.keys.toList().indexOf(item.key)]
                               : Theme.of(context)
                                   .colorScheme
                                   .background
                                   .withOpacity(0.4),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(
-                          IconData(item.value.hashCode),
-                          size: 40,
+                        child: ImageIcon(
+                          item.value.image,
                           color: tmpCategory == item.key
-                              ? Theme.of(context).colorScheme.onTertiary
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .onTertiary
-                                  .withOpacity(0.4),
+                              ? _categoriesIconColor[
+                                  _categories.keys.toList().indexOf(item.key)]
+                              : Theme.of(context).colorScheme.onTertiary,
                         ),
                       ),
+                    ),
+                    Text(
+                      item.key,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),

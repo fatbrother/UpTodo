@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_list_sample/firebase_options.dart';
-import 'package:todo_list_sample/router.dart';
-import 'package:todo_list_sample/theme.dart';
+import 'package:todo_list_sample/utility/firebase_options.dart';
+import 'package:todo_list_sample/utility/router.dart';
+import 'package:todo_list_sample/utility/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

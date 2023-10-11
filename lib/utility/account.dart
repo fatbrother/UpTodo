@@ -1,13 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:todo_list_sample/database/user_db.dart';
+import 'package:todo_list_sample/model/user_model.dart';
 
 abstract class IAccount {
   Future<bool> signInWithGoogle();
   Future<bool> signInWithApple();
-  Future<bool> signInWithEmailAndPassword({required String email, required String password});
+  Future<bool> signInWithEmailAndPassword(
+      {required String email, required String password});
   Future<void> signOut();
-  Future<void> signUpWithEmailAndPassword({required String email, required String password});
+  Future<void> signUpWithEmailAndPassword(
+      {required String email, required String password});
+  Future<void> changePassword({required String newPassword});
+  Future<void> deleteAccount();
+
   User? get currentUser;
   bool get isSignedIn => currentUser != null;
 }
@@ -20,6 +27,18 @@ class Account implements IAccount {
   Account._internal() : _auth = FirebaseAuth.instance;
 
   FirebaseAuth _auth;
+
+  Future<void> _checkUserInDatabase() async {
+    try {
+      await UserDB.instance.query(_auth.currentUser!.uid);
+    } catch (e) {
+      await UserDB.instance.add(UserModel(
+        id: _auth.currentUser!.uid,
+        name: _auth.currentUser!.displayName ?? '',
+        headshotId: '',
+      ));
+    }
+  }
 
   @override
   Future<bool> signInWithGoogle() async {
@@ -34,6 +53,10 @@ class Account implements IAccount {
         idToken: googleAuth.idToken,
       );
       await _auth.signInWithCredential(credential);
+
+      // try query user in database, if not exist, create new user
+      await _checkUserInDatabase();
+
       return true;
     } on FirebaseAuthException {
       return false;
@@ -54,6 +77,10 @@ class Account implements IAccount {
         accessToken: appleCredential.authorizationCode,
       );
       await _auth.signInWithCredential(credential);
+
+      // try query user in database, if not exist, create new user
+      await _checkUserInDatabase();
+
       return true;
     } on FirebaseAuthException {
       return false;
@@ -61,13 +88,18 @@ class Account implements IAccount {
   }
 
   @override
-  Future<bool> signInWithEmailAndPassword({required String email, required String password}) async {
+  Future<bool> signInWithEmailAndPassword(
+      {required String email, required String password}) async {
     try {
       final credential = EmailAuthProvider.credential(
         email: email,
         password: password,
       );
       await _auth.signInWithCredential(credential);
+
+      // try query user in database, if not exist, create new user
+      await _checkUserInDatabase();
+
       return true;
     } on FirebaseAuthException {
       return false;
@@ -75,16 +107,31 @@ class Account implements IAccount {
   }
 
   @override
-  Future<bool> signUpWithEmailAndPassword({required String email, required String password}) async {
+  Future<bool> signUpWithEmailAndPassword(
+      {required String email, required String password}) async {
     try {
       final credential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // try query user in database, if not exist, create new user
+      await _checkUserInDatabase();
+
       return credential.user != null;
     } on FirebaseAuthException {
       return false;
     }
+  }
+
+  @override
+  Future<void> changePassword({required String newPassword}) async {
+    await _auth.currentUser!.updatePassword(newPassword);
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    await _auth.currentUser!.delete();
   }
 
   @override

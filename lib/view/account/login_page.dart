@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_sample/router.dart';
-import 'package:todo_list_sample/views/account/widget/input_field.dart';
-import 'package:todo_list_sample/views/account/widget/main_button.dart';
-import 'package:todo_list_sample/views/account/widget/or_divider.dart';
-import 'package:todo_list_sample/views/account/widget/secondary_button.dart';
+import 'package:todo_list_sample/utility/router.dart';
+import 'package:todo_list_sample/view/account/widget/input_field.dart';
+import 'package:todo_list_sample/view/account/widget/main_button.dart';
+import 'package:todo_list_sample/view/account/widget/or_divider.dart';
+import 'package:todo_list_sample/view/account/widget/secondary_button.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});

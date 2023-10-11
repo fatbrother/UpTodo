@@ -41,7 +41,7 @@ dependencies:
   sign_in_with_apple: ^5.0.0
   google_sign_in: ^6.1.5
   flutter_launcher_icons: ^0.13.1
-  random_avatar: ^0.0.8
+  cloud_firestore: ^4.9.2
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +70,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/categories/
+    - assets/icons/profile/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
