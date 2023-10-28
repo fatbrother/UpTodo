@@ -1,5 +1,4 @@
 abstract class IModel {
-  String get id;
 
   IModel();
 

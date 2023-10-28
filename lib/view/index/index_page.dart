@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_sample/utility/router.dart';
-import 'package:todo_list_sample/view/index/widget/add_task_snack_bar.dart';
+import 'package:todo_list_sample/utility/user.dart';
+import 'package:todo_list_sample/view/index/widget/add_task_bottom_sheet.dart';
+import 'package:todo_list_sample/view/index/widget/empty_index_body.dart';
+import 'package:todo_list_sample/view/index/widget/index_body.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -10,30 +13,23 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
-  bool _isSnackBarVisible = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        centerTitle: true,
         toolbarHeight: 100,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.filter_list, size: 36),
-        ),
-        title: Center(
-          child: Text(
-            'Index',
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
+        title: Text(
+          'Index',
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         actions: [
           GestureDetector(
-            onTap: gotoProfile,
-            child: const CircleAvatar(
-              radius: 25,
-              foregroundImage:
-                  AssetImage('assets/images/default_avatar.png'),
+            onTap: _gotoProfile,
+            child: CircleAvatar(
+              radius: 24,
+              backgroundImage: User().headshot.image,
             ),
           ),
           const SizedBox(width: 8),
@@ -41,53 +37,38 @@ class _IndexPageState extends State<IndexPage> {
         backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
       ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Image.asset('assets/images/index.png', height: 300),
-          Text(
-            'What do you want to do today?',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Tap + to add your tasks',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ],
-      )),
-      floatingActionButton: AnimatedRotation(
-        duration: const Duration(milliseconds: 1000),
-        turns: _isSnackBarVisible ? 0.25 : 0,
-        curve: Curves.easeInOut,
-        child: FloatingActionButton(
-          shape: const CircleBorder(),
-          onPressed: () => _onAddButtonPressed(context),
-          backgroundColor: Theme.of(context).colorScheme.tertiary,
-          child: Icon(
-            _isSnackBarVisible ? Icons.close : Icons.add,
-            size: 36,
-            color: Colors.white,
-          ),
+      body: User().tasks.isEmpty
+          ? const EmptyIndexBody()
+          : IndexBody(tasks: User().tasks),
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        onPressed: () => _onAddButtonPressed(context),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        child: Icon(
+          Icons.add,
+          size: 36,
+          color: Theme.of(context).colorScheme.onTertiary,
         ),
       ),
     );
   }
 
   void _onAddButtonPressed(BuildContext context) {
-    if (_isSnackBarVisible) {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      setState(() => _isSnackBarVisible = false);
-      return;
-    }
-
-    ScaffoldMessenger.of(context)
-        .showSnackBar(AddTaskSnackBar(context: context));
-    setState(() => _isSnackBarVisible = true);
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      builder: (context) => AddTaskSnackBarBottomSheet(
+        onAddTask: (task) => setState(() {
+          User().addTask(task);
+        }),
+      ),
+    );
   }
 
-  void gotoProfile() {
-    Navigator.pushNamed(context, RouteMap.profile);
+  void _gotoProfile() {
+    Navigator.pushNamed(context, RouteMap.profile).then((value) {
+      setState(() {});
+    });
   }
 }

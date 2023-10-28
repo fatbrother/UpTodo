@@ -4,13 +4,16 @@ class ProfileTextField extends StatelessWidget {
   const ProfileTextField({
     super.key,
     this.hintText,
+    this.controller,
   });
 
   final String? hintText;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       autofocus: true,
       cursorColor: Theme.of(context).colorScheme.onPrimary,
       decoration: InputDecoration(

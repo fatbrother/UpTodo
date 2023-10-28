@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:todo_list_sample/utility/router.dart';
+import 'package:todo_list_sample/utility/user.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
@@ -11,6 +12,7 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
+  final ScrollController _scrollController = ScrollController();
   int index = 0;
 
   List<Image> images = [
@@ -58,42 +60,65 @@ class _IntroPageState extends State<IntroPage> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      images[index],
-                      const SizedBox(height: 48),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          for (int i = 0; i < 3; i++)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                              child: Container(
-                                color: index == i
-                                    ? Theme.of(context).colorScheme.onPrimary
-                                    : Theme.of(context).colorScheme.onBackground,
-                                height: 4,
-                                width: 30,
-                              ),
-                            ),
-                        ],
+                const SizedBox(height: 24),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: 300,
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        controller: _scrollController,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        children: images
+                            .map((e) => SizedBox(
+                                  width: MediaQuery.of(context).size.width - 24,
+                                  child: Center(child: e),
+                                ))
+                            .toList(),
                       ),
-                      const SizedBox(height: 48),
-                      Text(
+                    ),
+                    const SizedBox(height: 48),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        for (int i = 0; i < 3; i++)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Container(
+                              color: index == i
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onBackground,
+                              height: 4,
+                              width: 30,
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 48),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                      child: Text(
                         titles[index],
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
-                      const SizedBox(height: 48),
-                      Text(
+                    ),
+                    const SizedBox(height: 48),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                      child: Text(
                         descriptions[index],
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: 16,
+                        ),
                         textAlign: TextAlign.center,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -139,16 +164,27 @@ class _IntroPageState extends State<IntroPage> {
   void _onNext() {
     setState(() {
       index = min(index + 1, 2);
+      _scrollController.animateTo(
+        (MediaQuery.of(context).size.width - 24) * index,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeIn,
+      );
     });
   }
 
   void _onBack() {
     setState(() {
       index = max(index - 1, 0);
+      _scrollController.animateTo(
+        (MediaQuery.of(context).size.width - 24) * index,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeIn,
+      );
     });
   }
 
   void _onGetStarted() {
-    Navigator.of(context).pushNamed(RouteMap.welcome);
+    User().isFirstTime = false;
+    Navigator.of(context).pushNamed(RouteMap.index);
   }
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_sample/utility/user.dart';
 import 'package:todo_list_sample/view/profile/widget/profile_text_field.dart';
 
 class ChangeNameDialog extends StatelessWidget {
-  const ChangeNameDialog({
+  ChangeNameDialog({
     super.key,
+    required this.onNameChanged,
   });
+
+  final void Function() onNameChanged;
+  final TextEditingController _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +30,17 @@ class ChangeNameDialog extends StatelessWidget {
                 color:
                     Theme.of(context).colorScheme.onPrimary.withOpacity(0.5)),
             const SizedBox(height: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: ProfileTextField(hintText: "User name"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ProfileTextField(
+                  hintText: "User name", controller: _nameController),
             ),
             const SizedBox(height: 32),
             Row(
               children: [
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.pop(context),
                     child: Text(
                       "Cancel",
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -45,7 +51,10 @@ class ChangeNameDialog extends StatelessWidget {
                 ),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _onNameChanged(_nameController.text);
+                      Navigator.pop(context);
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
@@ -65,5 +74,11 @@ class ChangeNameDialog extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _onNameChanged(String newName) async {
+    final user = User();
+    user.name = newName;
+    onNameChanged();
   }
 }

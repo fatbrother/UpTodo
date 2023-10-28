@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_sample/utility/user.dart';
 import 'package:todo_list_sample/view/profile/widget/change_name_dialog.dart';
-import 'package:todo_list_sample/view/profile/widget/change_password_dialog.dart';
 import 'package:todo_list_sample/view/profile/widget/image_bottom_sheet.dart';
 import 'package:todo_list_sample/view/profile/widget/setting_row.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late final int _uncompletedTasksCount = User().uncompletedTasksCount;
+  late final int _completedTasksCount = User().completedTasksCount;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +35,13 @@ class ProfilePage extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 16),
-            const CircleAvatar(
-              radius: 50,
-              foregroundImage: AssetImage('assets/images/default_avatar.png'),
+            CircleAvatar(
+              radius: 54,
+              backgroundImage: User().headshot.image,
             ),
             const SizedBox(height: 16),
             Text(
-              'User Name',
+              User().name == "" ? "User name" : User().name,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 16),
@@ -49,7 +57,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "10 Task left",
+                        "$_uncompletedTasksCount Task${_uncompletedTasksCount > 1 ? "s" : ""} left",
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     )),
@@ -62,7 +70,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "5 Task done",
+                        "$_completedTasksCount Task${_completedTasksCount > 1 ? "s" : ""} done",
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     )),
@@ -92,7 +100,7 @@ class ProfilePage extends StatelessWidget {
                     const AssetImage('assets/icons/profile/camera.png'),
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
-                  onTap: () => onChangeAccountImage(context),
+                  onTap: () => _onChangeAccountImage(context),
                 ),
                 const SizedBox(height: 8),
                 SettingRow(
@@ -101,36 +109,8 @@ class ProfilePage extends StatelessWidget {
                     const AssetImage('assets/icons/profile/user.png'),
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
-                  onTap: () => onChangeAccountName(context),
+                  onTap: () => _onChangeAccountName(context),
                 ),
-                const SizedBox(height: 8),
-                SettingRow(
-                  description: "Change account password",
-                  icon: ImageIcon(
-                    const AssetImage('assets/icons/profile/key.png'),
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  onTap: () => onChangeAccountPassword(context),
-                ),
-                const SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      ImageIcon(
-                        const AssetImage('assets/icons/profile/logout.png'),
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        "Logout",
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.error,
-                            ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             ),
           ],
@@ -139,7 +119,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  void onChangeAccountImage(BuildContext context) {
+  void _onChangeAccountImage(BuildContext context) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -149,21 +129,21 @@ class ProfilePage extends StatelessWidget {
           topRight: Radius.circular(0),
         ),
       ),
-      builder: (context) => const ImageBottomSheet(),
+      builder: (context) => ImageBottomSheet(
+        onPictureChanged: () => setState(() {}),
+      ),
     );
   }
 
-  void onChangeAccountName(BuildContext context) {
+  void _onChangeAccountName(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => const ChangeNameDialog(),
-    );
-  }
-
-  void onChangeAccountPassword(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const ChangePasswordDialog(),
+      builder: (context) => ChangeNameDialog(
+        onNameChanged: () => setState(() {
+          final User user = User();
+          user.name = user.name;
+        }),
+      ),
     );
   }
 }

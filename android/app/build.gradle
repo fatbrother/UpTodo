@@ -59,6 +59,14 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    defaultConfig {
+        applicationId "com.example.sample_project"
+        minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
 }
 
 flutter {
