@@ -113,8 +113,8 @@ class _IntroPageState extends State<IntroPage> {
                       child: Text(
                         descriptions[index],
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 16,
-                        ),
+                              fontSize: 16,
+                            ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -125,15 +125,21 @@ class _IntroPageState extends State<IntroPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(
-                  onPressed: _onBack,
-                  child: Text(
-                    'BACK',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: Theme.of(context).colorScheme.onBackground,
+                index == 0
+                    ? const SizedBox()
+                    : TextButton(
+                        onPressed: _onBack,
+                        child: Text(
+                          'BACK',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
                         ),
-                  ),
-                ),
+                      ),
                 ElevatedButton(
                   onPressed: index == 2 ? _onGetStarted : _onNext,
                   style: ElevatedButton.styleFrom(
