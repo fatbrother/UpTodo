@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:todo_list_sample/utility/router.dart';
+import 'package:todo_list_sample/utility/pages.dart';
 import 'package:todo_list_sample/utility/user.dart';
 
 class IntroPage extends StatefulWidget {
