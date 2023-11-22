@@ -191,6 +191,6 @@ class _IntroPageState extends State<IntroPage> {
 
   void _onGetStarted() {
     User().isFirstTime = false;
-    Navigator.of(context).pushNamed(RouteMap.index);
+    Navigator.of(context).pushNamed(Pages.index);
   }
 }

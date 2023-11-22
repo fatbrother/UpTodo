@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'UpTodo',
       theme: ThemeFactory.createThemeData(),
-      routes: RouteMap.routes,
-      initialRoute: RouteMap.initialRoute,
+      routes: Pages.routes,
+      initialRoute: Pages.initialRoute,
       debugShowCheckedModeBanner: false,
     );
   }

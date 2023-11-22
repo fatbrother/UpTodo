@@ -6,7 +6,7 @@ import 'package:todo_list_sample/view/intro/intro_page.dart';
 import 'package:todo_list_sample/view/index/index_page.dart';
 import 'package:todo_list_sample/view/profile/profile_page.dart';
 
-class RouteMap {
+class Pages {
   static const String intro = '/intro';
   static const String welcome = '/welcome';
   static const String login = '/login';

@@ -67,7 +67,7 @@ class _IndexPageState extends State<IndexPage> {
   }
 
   void _gotoProfile() {
-    Navigator.pushNamed(context, RouteMap.profile).then((value) {
+    Navigator.pushNamed(context, Pages.profile).then((value) {
       setState(() {});
     });
   }

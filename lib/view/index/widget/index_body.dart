@@ -125,7 +125,7 @@ class _IndexBodyState extends State<IndexBody> {
   }
 
   void _onGotoTaskPage(TaskModel task) {
-    Navigator.pushNamed(context, RouteMap.task, arguments: task).then(
+    Navigator.pushNamed(context, Pages.task, arguments: task).then(
       (value) {
         setState(
           () {
